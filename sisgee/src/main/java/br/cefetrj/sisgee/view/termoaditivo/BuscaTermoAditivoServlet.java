@@ -17,6 +17,7 @@ import br.cefetrj.sisgee.control.TermoAditivoServices;
 import br.cefetrj.sisgee.model.entity.Aluno;
 import br.cefetrj.sisgee.model.entity.TermoAditivo;
 import br.cefetrj.sisgee.model.entity.TermoEstagio;
+import br.cefetrj.sisgee.view.utils.Constantes;
 import br.cefetrj.sisgee.view.utils.ServletUtils;
 import br.cefetrj.sisgee.view.utils.ValidaUtils;
 /**
@@ -41,6 +42,7 @@ public class BuscaTermoAditivoServlet extends HttpServlet {
 		Locale locale = ServletUtils.getLocale(request);
 		ResourceBundle messages = ResourceBundle.getBundle("Messages", locale);
 		
+		boolean listoutermosativos = false;
 		String msg = null;
 		String idAluno = request.getParameter("idAluno");
                 
@@ -76,7 +78,19 @@ public class BuscaTermoAditivoServlet extends HttpServlet {
                       request.setAttribute("termosAditivos", termoAditivos);
                   }
                 }
-		
+				//Se não houver termos ativos, não exibe o botão de encerrar termo
+				for (TermoEstagio termoEstagio : termoEstagios) {
+					String estado = "";
+					try {
+					estado = termoEstagio.getEstado();
+					}catch (Exception e) {
+						System.out.println("Erro ao recuperar estado do estágio" + e.getMessage());
+					}
+					if (Constantes.ATIVO.equalsIgnoreCase(estado)) {
+						listoutermosativos = true;						
+					}
+				}
+				request.setAttribute("listoutermosativos", listoutermosativos);
                 request.setAttribute("listaTermoEstagio", aluno.getTermoEstagios());
                 request.setAttribute("msg",msg);
                 }

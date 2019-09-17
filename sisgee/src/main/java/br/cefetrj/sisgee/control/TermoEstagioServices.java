@@ -72,7 +72,6 @@ public class TermoEstagioServices {
 			}
 			return author;
 		}catch(Exception e){
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -123,6 +122,8 @@ public class TermoEstagioServices {
 			
 			PersistenceManager.getTransaction().commit();
 		}catch(Exception e){
+			//TODO remover saída do console
+			System.out.println(e);
 			e.printStackTrace();
 			PersistenceManager.getTransaction().rollback();
 		}
@@ -150,7 +151,8 @@ public class TermoEstagioServices {
 				termoEstagioDao.excluir(termoEstagio);
 				PersistenceManager.getTransaction().commit();
 			}catch(Exception e){
-				e.printStackTrace();
+				//TODO remover saída do console
+				System.out.println(e);
 				PersistenceManager.getTransaction().rollback();
 			}
         }

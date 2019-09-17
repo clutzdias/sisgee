@@ -22,8 +22,14 @@ public class ProfessorOrientadorServices {
 	 * 
 	 */
 	public static List<ProfessorOrientador> listarProfessorOrientador(){
+		List<ProfessorOrientador> listaProfessores = new List<ProfessorOrientador>();
+		
 		GenericDAO<ProfessorOrientador> professorOrientadorDao = PersistenceManager.createGenericDAO(ProfessorOrientador.class);
-		return professorOrientadorDao.buscarTodos();
+		listaProfessores = SIEServices.getListaProfessorFromSIE();		
+		
+		if (listaProfessores.size() == 0){
+			professorOrientadorDao.buscarTodos();
+		}
 	}
 	
         /**
